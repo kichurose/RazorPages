@@ -1,0 +1,32 @@
+﻿@page
+@model RazorPages.Pages.BookList.EditModel
+@{
+}
+
+<div>
+	<form method="post">
+		<div asp-validation-summary="ModelOnly"></div>
+		<input type="hidden" asp-for="Book.Id" />
+		<div>
+			<label asp-for="Book.Name"></label>
+			<input type="text" asp-for="Book.Name" class="form-control"/>
+			<span asp-validation-for="Book.Name"class="text-danger"></span>
+		</div>
+		<div>
+			<label asp-for="Book.Title"></label>
+			<input type="text" asp-for="Book.Title" class="form-control" />
+		</div>
+		<div>
+			<label asp-for="Book.ISBN"></label>
+			<input type="text" asp-for="Book.ISBN" class="form-control" />
+		</div>
+		<div>
+			<input type="submit" value="Update"/>
+			<a asp-page="Index"class="btn btn-success">Back</a>
+		</div>
+	</form>
+</div>
+
+@section Scripts {
+		<partial name="_ValidationScriptsPartial" />
+}

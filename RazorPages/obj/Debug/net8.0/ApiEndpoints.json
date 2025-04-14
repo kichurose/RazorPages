@@ -1,0 +1,38 @@
+[
+  {
+    "ContainingType": "RazorPages.Controllers.BookController",
+    "Method": "GetAll",
+    "RelativePath": "api/book",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RazorPages.Controllers.BookController",
+    "Method": "Index",
+    "RelativePath": "api/book",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RazorPages.Controllers.BookController",
+    "Method": "Delete",
+    "RelativePath": "api/book",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

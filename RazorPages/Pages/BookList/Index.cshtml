@@ -1,0 +1,144 @@
+﻿@page
+@model RazorPages.Pages.BookList.IndexModel
+@{
+}
+
+<h1>Hi hello</h1>
+
+<br />
+<div class="container row p-0 m-0">
+
+	<div class="col-9">
+		<h2 class="text-info">Book List</h2>
+	</div>
+	<div class="col-3">
+		<a asp-page="Create" class="btn btn-info form-control text-white">
+			Create New book
+		</a>
+	</div>
+
+	<div class="col-12 border p-3 mt-3">
+		<form method="post">
+			@if (Model.Books.Count() > 0)
+			{
+				<table class="table table-striped border">
+					<tr class="table-secondary">
+						<th>
+							<label asp-for="Books.FirstOrDefault().Name">
+
+							</label>
+						</th>
+						<th>
+							@* @Html.DisplayNameFor(m => m.Books.FirstOrDefault().Title) // html helper *@
+							<label asp-for="Books.FirstOrDefault().Title"> </label>
+						</th>
+						<th>
+							@* @Html.DisplayNameFor(m => m.Books.FirstOrDefault().Title) // html helper *@
+							<label asp-for="Books.FirstOrDefault().ISBN"> </label>
+						</th>
+						<th></th>
+						@* <th></th> *@
+					</tr>
+					@foreach (var item in Model.Books)
+					{
+						<tr>
+							<td>
+								@Html.DisplayFor(m => item.Name)
+							</td>
+							<td>
+								@Html.DisplayFor(m => item.Title)
+							</td>
+							<td>
+								@Html.DisplayFor(m => item.ISBN)
+							</td>
+							<td>
+								<button asp-page-handler="Delete" asp-route-id="@item.Id"  onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm text-white">Delete</button>
+								<a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm">Edit</a>
+							</td>
+						</tr>
+					}
+				</table>
+			}
+			else
+			{
+				<p>No books available</p>
+			}
+		</form>
+	</div>
+
+	<div class="col-12 text-center">
+		<br />
+		<span class="h3 text-info">OR</span>
+		<br /><br />
+	</div>
+
+	<div class="col-12 border p-3">
+		<table id="DT_load" class="table table-striped">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Author</th>
+					<th>ISBN</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- Table rows go here -->
+			</tbody>
+		</table>
+	</div>
+</div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+	<script>
+		$(document).ready(function () {
+			$('#DT_load').DataTable({
+				"ajax": {
+					"url": "/api/book",
+					"type": "GET",
+					"datatype": "json"
+				},
+				"columns": [
+					{ "data": "name" },
+					{ "data": "title" },
+					{ "data": "isbn" },
+					{
+						data: "id",
+						render: function (data) {
+							return `<a  href="/Booklist/Edit?id=${data}" class="btn btn-sm btn-success">Edit</a>
+<button class="btn btn-danger btn-sm text-white" onclick=Delete("api/book?id=${data}")>Delete</button>`;
+						}
+					}
+				]
+			});
+		});
+
+
+				function Delete(url) {
+					swal({
+						title: "Are you sure?",
+						text: "Once deleted, you will not be able to recover this record!",
+						icon: "warning",
+						buttons: true,
+						dangerMode: true
+					}).then((willDelete) => {
+						if (willDelete) {
+							$.ajax({
+								type: "DELETE",
+								url: url,
+								success: function (data) {
+									if (data.success) {
+										toastr.success(data.message);
+										$('#DT_load').DataTable().ajax.reload(); // Refresh table
+									} else {
+										toastr.error(data.message);
+									}
+								}
+							});
+						}
+					});
+				}
+				
+	</script>
+}
